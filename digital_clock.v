@@ -21,7 +21,7 @@
 
 
 module digital_clock(
-    input clk,reset,
+    input clk_1hz,reset,
     output reg [5:0]sec,min,
     output reg [4:0]hr
     );
@@ -29,15 +29,17 @@ module digital_clock(
     
     wire clk_out;
     
-    frequency_divid uut(.clk(clk),.reset(reset),.clk_out(clk_out));
+    //frequency_divid uut(.clk(clk),.reset(reset),.clk_out(clk_out));
     
-    always@(posedge clk_out or posedge reset) begin 
+    always@(posedge clk_1hz or posedge reset) begin 
         if(reset)begin 
             sec <= 0;
             min <= 0;
             hr <= 0;
           end 
         else begin
+        if(clk == 1'b1)
+        	sec <= sec+1;
             if(sec == 59)begin 
                 sec <=0 ;
                 if(min <= 59)begin 
